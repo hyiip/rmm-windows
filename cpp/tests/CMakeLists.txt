@@ -14,7 +14,7 @@ set(RMM_TESTS_CXX_FLAGS
     $<$<CXX_COMPILER_ID:MSVC>:/W4;/WX;/Zc:preprocessor>)
 set(RMM_TESTS_CUDA_FLAGS -Werror=all-warnings
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Xcompiler=-Wall,-Werror,-Wextra>
-    $<$<CXX_COMPILER_ID:MSVC>:-Xcompiler=/W4,/WX,/Zc:preprocessor,/wd4819;--diag-suppress=177>)
+    $<$<CXX_COMPILER_ID:MSVC>:-Xcompiler=/W4,/WX,/Zc:preprocessor,/wd4819,/wd4211;--diag-suppress=177>)
 
 find_package(Threads REQUIRED)
 
