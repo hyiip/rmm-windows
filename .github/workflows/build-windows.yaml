@@ -1,0 +1,22 @@
+name: build-windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows-cpp-build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        cuda: ['12.8.1', '13.1.0']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Jimver/cuda-toolkit@v0.2.30
+        with:
+          cuda: ${{ matrix.cuda }}
+          method: 'network'
+      - name: Configure
+        run: cmake -S cpp -B build -DBUILD_TESTS=ON
+      - name: Build
+        run: cmake --build build --config Release --parallel
