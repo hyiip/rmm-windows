@@ -133,10 +133,10 @@ endif()
 
 set(RMM_CXX_FLAGS
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Werror;-Wextra;-Wno-unknown-pragmas;-Wno-error=deprecated-declarations>
-    $<$<CXX_COMPILER_ID:MSVC>:/W4;/WX;/Zc:preprocessor>)
+    $<$<CXX_COMPILER_ID:MSVC>:/W4;/WX;/Zc:preprocessor;/wd4819>)
 set(RMM_CUDA_FLAGS -Werror=all-warnings
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Xcompiler=-Wall,-Werror,-Wextra,-Wno-error=deprecated-declarations>
-    $<$<CXX_COMPILER_ID:MSVC>:-Xcompiler=/W4,/WX,/Zc:preprocessor>)
+    $<$<CXX_COMPILER_ID:MSVC>:-Xcompiler=/W4,/WX,/Zc:preprocessor,/wd4819>)
 target_compile_options(rmm PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${RMM_CXX_FLAGS}>"
                                    "$<$<COMPILE_LANGUAGE:CUDA>:${RMM_CUDA_FLAGS}>")
 target_compile_definitions(rmm PRIVATE $<$<CXX_COMPILER_ID:MSVC>:NOMINMAX>)

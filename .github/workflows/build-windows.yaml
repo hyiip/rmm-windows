@@ -8,7 +8,11 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        cuda: ['12.8.1', '13.1.0']
+        include:
+          - cuda: '12.8.1'
+            rapids-cmake-branch: 'release/26.02'
+          - cuda: '13.1.0'
+            rapids-cmake-branch: 'main'
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -17,6 +21,6 @@ jobs:
           cuda: ${{ matrix.cuda }}
           method: 'network'
       - name: Configure
-        run: cmake -S cpp -B build -DBUILD_TESTS=ON
+        run: cmake -S cpp -B build -DBUILD_TESTS=ON -Drapids-cmake-branch=${{ matrix.rapids-cmake-branch }}
       - name: Build
         run: cmake --build build --config Release --parallel
