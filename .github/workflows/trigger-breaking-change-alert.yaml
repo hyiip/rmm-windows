@@ -1,12 +1,7 @@
 name: Trigger Breaking Change Notifications
 
 on:
-  pull_request_target:
-    types:
-      - closed
-      - reopened
-      - labeled
-      - unlabeled
+  workflow_dispatch:
 
 jobs:
   trigger-notifier:

@@ -1,8 +1,7 @@
 name: Auto Assign New Issues to Triage Project
 
 on:
-  issues:
-    types: [opened]
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

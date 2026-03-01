@@ -9,6 +9,8 @@ jobs:
     strategy:
       matrix:
         include:
+          - cuda: '12.5.1'
+            rapids-cmake-branch: 'release/26.02'
           - cuda: '12.8.1'
             rapids-cmake-branch: 'release/26.02'
           - cuda: '13.1.0'
@@ -21,6 +23,6 @@ jobs:
           cuda: ${{ matrix.cuda }}
           method: 'network'
       - name: Configure
-        run: cmake -S cpp -B build -DBUILD_TESTS=ON -Drapids-cmake-branch=${{ matrix.rapids-cmake-branch }}
+        run: cmake -S cpp -B build -DBUILD_TESTS=ON -Drapids-cmake-branch:STRING=${{ matrix.rapids-cmake-branch }}
       - name: Build
         run: cmake --build build --config Release --parallel
