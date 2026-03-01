@@ -14,6 +14,25 @@ project(
   VERSION "${RAPIDS_VERSION}"
   LANGUAGES CXX)
 
+# On Windows, CMake's FindCUDAToolkit searches only lib/x64 but some
+# installations (e.g. conda) place libraries directly in lib/.
+# Resolve the correct path before find_package(rmm) triggers the search.
+if(WIN32 AND NOT CUDAToolkit_LIBRARY_DIR)
+  foreach(_cuda_root "$ENV{CUDA_PATH}" "$ENV{CUDAToolkit_ROOT}")
+    if(_cuda_root)
+      foreach(_suffix lib/x64 lib)
+        if(EXISTS "${_cuda_root}/${_suffix}/cudart.lib")
+          set(CUDAToolkit_LIBRARY_DIR "${_cuda_root}/${_suffix}" CACHE PATH "")
+          break()
+        endif()
+      endforeach()
+      if(CUDAToolkit_LIBRARY_DIR)
+        break()
+      endif()
+    endif()
+  endforeach()
+endif()
+
 find_package(rmm "${RAPIDS_VERSION}" REQUIRED)
 
 # MSVC defaults to C++14; CCCL headers (pulled in via rmm::rmm) require C++17.
